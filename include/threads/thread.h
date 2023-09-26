@@ -90,12 +90,14 @@ struct thread {
 	tid_t tid;                          /* Thread identifier. */
 	enum thread_status status;          /* Thread state. */
 	char name[16];                      /* Name (for debugging purposes). */
-	int priority;                       /* Priority. */  
-
+	int priority;            // 현재 스레드의 우선 순위
+    int original_priority;   // 원래의 우선 순위 (priority가 변경되었을 때 사용)
+    struct list donation_list; // 다른 스레드로부터 받은 우선 순위 기부 목록
+    struct list_elem donation_elem; // donation_list에 연결되는 요소                       /* Priority. */  
+	struct lock *waiting_lock;
 	/* Shared between thread.c and synch.c. */
 	struct list_elem elem;              /* List element. */
 	int64_t wakeup_tick;				/* tick till wake up */
-	int real_priority;                       /*my real priority*/
 	
 #ifdef USERPROG
 	/* Owned by userprog/process.c. */
@@ -147,5 +149,7 @@ void do_iret (struct intr_frame *tf);
 
 void thread_sleep (int64_t ticks);
 void morning_call (int64_t curtime);
+bool priority_high (const struct list_elem *a_, const struct list_elem *b_,
+    		void *aux UNUSED);
 
 #endif /* threads/thread.h */

@@ -35,8 +35,8 @@ test_priority_donate_multiple (void)
   lock_acquire (&a);
   lock_acquire (&b);
 
-  printf("%s %s키 누가 가지고 있나요\n", a.holder->name, "a");
-  printf("%s %s키 누가 가지고 있나요\n", b.holder->name, "b");
+  printf("%s키 누가 가지고 있나요   %s 저요 \n", "a", a.holder->name);
+  printf("%s키 누가 가지고 있나요   %s 저요 \n", "b", b.holder->name);
 
   thread_create ("a", PRI_DEFAULT + 1, a_thread_func, &a);
   msg ("Main thread should have priority %d.  Actual priority: %d.",
@@ -55,6 +55,7 @@ test_priority_donate_multiple (void)
   msg ("Thread a should have just finished.");
   msg ("Main thread should have priority %d.  Actual priority: %d.",
        PRI_DEFAULT, thread_get_priority ());
+     
 }
 
 static void
