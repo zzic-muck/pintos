@@ -113,11 +113,8 @@ sema_up (struct semaphore *sema) {
 
 	old_level = intr_disable ();
 	if (!list_empty (&sema->waiters)){
-		printf(" 웨이터 프론트      %d\n" ,list_entry (list_front (&sema->waiters), struct thread, elem)->priority);
 		thread_unblock (list_entry (list_pop_front (&sema->waiters), struct thread, elem));
 		
-		printf("스레드 커런트     %d \n", thread_current()->priority);
-
 
 		// if(list_entry (list_pop_front (&sema->waiters), struct thread, elem)->priority > thread_current()->priority){
 

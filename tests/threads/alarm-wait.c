@@ -71,14 +71,12 @@ test_sleep (int thread_cnt, int iterations)
   if (threads == NULL || output == NULL)
     PANIC ("couldn't allocate memory for test");
   /* Initialize test. */
-  printf("어디까지1\n");
   test.start = timer_ticks () + 100;
   test.iterations = iterations;
   lock_init (&test.output_lock);
   test.output_pos = output;
 
   /* Start threads. */
-  printf("어디까지2\n");
   ASSERT (output != NULL);
   for (i = 0; i < thread_cnt; i++)
     {
@@ -99,7 +97,6 @@ test_sleep (int thread_cnt, int iterations)
   /* Acquire the output lock in case some rogue thread is still
      running. */
   lock_acquire (&test.output_lock);
-printf("어디까지3\n");
   /* Print completion order. */
   product = 0;
   for (op = output; op < test.output_pos; op++) 
@@ -123,7 +120,6 @@ printf("어디까지3\n");
     }
 
   /* Verify that we had the proper number of wakeups. */
-  printf("어디까지4\n");
   for (i = 0; i < thread_cnt; i++)
     if (threads[i].iterations != iterations)
       fail ("thread %d woke up %d times instead of %d",
